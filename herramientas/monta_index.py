@@ -6,7 +6,7 @@ cero=f'<svg viewBox="355 0 254 440" aria-hidden="true"><path fill-rule="evenodd"
 # La ola del logo, tal cual, como subrayado (solo se estira a lo ancho)
 for nombre,color in [('coral','#F0694C'),('minio','#D2452D'),('verde','#0F3B3A')]:
     pathlib.Path(f'marca/subrayado-{nombre}.svg').write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="236 374 1194 310" preserveAspectRatio="none"><path fill="{color}" fill-rule="evenodd" d="{gp[1][2]}"/></svg>')
-V='3'
+V='4'
 FL='<svg class="flecha" viewBox="0 0 100 70" aria-hidden="true"><path d="M6 12 C 38 4, 72 18, 86 54"/><path d="M66 46 L 87 56 L 94 33"/></svg>'
 def lienzo(img,h,alt): return f'<div class="lienzo"><img src="trabajos/{img}.webp?v={V}" width="1400" height="{h}" alt="{alt}" loading="lazy" decoding="async"></div>'
 def clip(n,label): return f'<figure class="movil"><video data-src="clips/{n}.mp4?v={V}" poster="clips/{n}.jpg?v={V}" muted loop playsinline preload="none" aria-label="{label}"></video></figure>'
@@ -32,7 +32,7 @@ html=f'''<!doctype html>
   <div class="barra">
     <a class="marca" href="#inicio" aria-label="muelle0, inicio"><img src="marca/mono.svg" width="608" height="531" alt=""></a>
     <a class="sec" href="#trabajos" data-i="nav.trabajos">Proyectos</a>
-    <a class="sec" href="#tuyo" data-i="nav.tuyo">Servicios</a>
+    <a class="sec opcional" href="#tuyo" data-i="nav.tuyo">Servicios</a>
     <a class="sec" href="#contacto" data-i="nav.contacto">Contacto</a>
     <div class="idioma" role="group" aria-label="Idioma / Language">
       <button type="button" value="es" aria-pressed="true">ES</button>
@@ -66,30 +66,23 @@ html=f'''<!doctype html>
         <p data-i="a.p1">Mostrar cada obra en un espacio real exigía editar a mano cada fotografía, y eso retrasaba la publicación del catálogo.</p>
         <p data-i="a.p2">Desarrollamos un panel privado con asistencia de IA. Quien gestiona el catálogo sube la foto, indica las medidas y elige una sala. El sistema endereza la imagen, la coloca a escala y la deja lista para publicar.</p>
       </div>
-      <div class="prueba-a">
+      <div class="demo a">
         <div class="col-movil">
           {clip('creamdo-admin','Grabación del panel de Creamdo: se sube la foto de un cuadro, se marcan las esquinas, se escriben las medidas y aparece colgado en una sala')}
           <p class="nota" data-i="a.n1">Grabación del panel en uso.</p>
         </div>
-        <div>
+        <div class="antes">
           <figure class="papel foto"><img src="trabajos/creamdo-foto.webp?v={V}" width="720" height="960" alt="Foto de un cuadro tomada con el teléfono, torcida y con la pared alrededor" loading="lazy"><figcaption data-i="a.c1">Foto original, tomada con un teléfono.</figcaption></figure>
           <div class="paso">{FL}<p class="nota" data-i="a.n2">Cinco pasos guiados.</p></div>
         </div>
         <figure class="papel sala"><img src="trabajos/creamdo-sala.webp?v={V}" width="900" height="1350" alt="El mismo cuadro, enderezado y colgado a escala sobre un sofá en una sala con vista al mar" loading="lazy"><figcaption data-i="a.c2">Resultado: la misma obra, corregida y a escala real (120 × 90 cm). Imagen referencial.</figcaption></figure>
       </div>
-      <div class="explica">
-        <p data-i="a.e1"><b>Fidelidad de la obra.</b> La IA solo ajusta la luz y la sombra del entorno. La obra publicada es siempre la fotografía original.</p>
-        <p data-i="a.e2"><b>Control automático.</b> Si la IA altera la pieza, el sistema lo detecta y descarta el resultado.</p>
-        <p data-i="a.e3"><b>Escala real.</b> Siete salas calibradas para que las dimensiones de cada obra correspondan a las reales.</p>
-        <p data-i="a.e4"><b>Sin curva de aprendizaje.</b> Un flujo guiado que se usa desde el teléfono, sin formación previa.</p>
-      </div>
-      <div class="web pantallas">
-        <div class="lado">
-          <p class="nota" data-i="a.w">El catálogo público: bilingüe, con ficha por obra y consulta directa por WhatsApp.</p>
-          <a class="ola-enlace" href="https://gforero1.github.io/creamdo/" target="_blank" rel="noopener" data-i="a.ver">Ver el catálogo</a>
-        </div>
+      <ul class="puntos"><li><p data-i="a.e1"><b>Fidelidad de la obra.</b> La IA solo ajusta la luz y la sombra del entorno. La obra publicada es siempre la fotografía original.</p></li><li><p data-i="a.e2"><b>Control automático.</b> Si la IA altera la pieza, el sistema lo detecta y descarta el resultado.</p></li><li><p data-i="a.e3"><b>Escala real.</b> Siete salas calibradas para que las dimensiones de cada obra correspondan a las reales.</p></li><li><p data-i="a.e4"><b>Sin curva de aprendizaje.</b> Un flujo guiado que se usa desde el teléfono, sin formación previa.</p></li></ul>
+      <div class="demo solo pantallas">
         {lienzo('creamdo-pc',3970,'Recorrido por la web de Creamdo Art: portada, obras con medidas y precio, y servicios')}
+        <p class="nota" data-i="a.w">El catálogo público: bilingüe, con ficha por obra y consulta directa por WhatsApp.</p>
       </div>
+      <p class="cierre"><a class="ola-enlace" href="https://gforero1.github.io/creamdo/" target="_blank" rel="noopener" data-i="a.ver">Ver el catálogo</a></p>
     </article>
 
     <article class="caso">
@@ -99,24 +92,15 @@ html=f'''<!doctype html>
         <p data-i="b.p1">Un catálogo de más de 140 productos con precios en dólares y cobro en moneda local, en un mercado donde el tipo de cambio varía a diario y una pasarela de pago no es viable para un comercio pequeño.</p>
         <p data-i="b.p2">La tienda calcula cada precio en ambas monedas con la tasa oficial del día y convierte el carrito en un pedido completo, que el cliente envía por WhatsApp.</p>
       </div>
-      <div class="prueba-b">
-        <div class="notas izq">
-          <p class="nota">{FL}<span data-i="b.n1"><b>Tipo de cambio automático.</b> La tasa oficial se consulta cada hora, sin intervención manual.</span></p>
-          <p class="nota">{FL}<span data-i="b.n2"><b>Dos monedas</b> en cada producto y en el total del pedido.</span></p>
+      <div class="demo b pantallas">
+        <div class="col-movil">
+          {clip('fisio-pedido','Grabación de un pedido en La Tiendita del Fisio: se añaden tres productos y se abre el pedido con el total en dólares y en moneda local')}
+          <p class="nota" data-i="b.n0">Grabación de un pedido en la tienda.</p>
         </div>
-        {clip('fisio-pedido','Grabación de un pedido en La Tiendita del Fisio: se añaden tres productos y se abre el pedido con el total en dólares y en bolívares')}
-        <div class="notas der">
-          <p class="nota">{FL}<span data-i="b.n3"><b>Pedido estructurado.</b> Llega por WhatsApp con productos, cantidades y total, y queda registrado.</span></p>
-          <p class="nota">{FL}<span data-i="b.n4"><b>Gestión autónoma.</b> La propietaria actualiza productos, precios y fotos desde su panel.</span></p>
-        </div>
+        {lienzo('fisio-pc',3315,'Recorrido por La Tiendita del Fisio: buscador, categorías y productos con precio en dos monedas')}
       </div>
-      <div class="web al-reves pantallas">
-        <div class="lado">
-          <p class="nota" data-i="b.w">Buscador, categorías y un catálogo que se edita en cualquier momento.</p>
-          <a class="ola-enlace" href="https://gforero1.github.io/latienditadelfisio/" target="_blank" rel="noopener" data-i="b.ver">Ver la tienda</a>
-        </div>
-        {lienzo('fisio-pc',3315,'Recorrido por La Tiendita del Fisio: buscador, categorías y productos con precio en dólares y bolívares')}
-      </div>
+      <ul class="puntos"><li><p data-i="b.n1"><b>Tipo de cambio automático.</b> La tasa oficial se consulta cada hora, sin intervención manual.</p></li><li><p data-i="b.n2"><b>Dos monedas.</b> Cada producto y el total del pedido se muestran en ambas.</p></li><li><p data-i="b.n3"><b>Pedido estructurado.</b> Llega por WhatsApp con productos, cantidades y total, y queda registrado.</p></li><li><p data-i="b.n4"><b>Gestión autónoma.</b> La propietaria actualiza productos, precios y fotos desde su panel.</p></li></ul>
+      <p class="cierre"><a class="ola-enlace" href="https://gforero1.github.io/latienditadelfisio/" target="_blank" rel="noopener" data-i="b.ver">Ver la tienda</a></p>
     </article>
 
     <article class="caso">
@@ -125,15 +109,15 @@ html=f'''<!doctype html>
         <h3 class="brocha" data-i="c.t">Un portafolio que presenta su trabajo a una marca en menos de un minuto.</h3>
         <p data-i="c.p1">Omary produce vídeo para marcas de belleza. Su portafolio era una presentación; ahora es un sitio propio, con el trabajo organizado por categoría y un canal directo para solicitar presupuesto.</p>
       </div>
-      <div class="prueba-c pantallas">
-        {lienzo('omary-pc',3971,'Recorrido por el portafolio de Omary Belisario: portada, sobre mí y vídeos de skincare y makeup')}
-        <div class="notas">
-          <p class="nota">{FL}<span data-i="c.n1"><b>Diseño propio,</b> desarrollado a partir de su identidad visual.</span></p>
-          <p class="nota">{FL}<span data-i="c.n2"><b>Vídeo tratado.</b> Cada pieza se procesa para conservar el color original.</span></p>
-          <p class="nota">{FL}<span data-i="c.n3"><b>Bilingüe.</b> Español o inglés según el idioma del visitante.</span></p>
-          <a class="ola-enlace" href="https://omaryugc.com/" target="_blank" rel="noopener" data-i="c.ver">Ver el portafolio</a>
+      <div class="demo c pantallas">
+        {lienzo('omary-pc',3971,'Recorrido por el portafolio de Omary Belisario en escritorio: portada, sobre mí y vídeos por categoría')}
+        <div class="col-movil">
+          <figure class="movil"><div class="lienzo"><img src="trabajos/omary-movil.webp?v={V}" width="585" height="5447" alt="Recorrido por el portafolio de Omary Belisario en un teléfono" loading="lazy" decoding="async"></div></figure>
+          <p class="nota" data-i="c.n0">El mismo portafolio, en el teléfono.</p>
         </div>
       </div>
+      <ul class="puntos"><li><p data-i="c.n1"><b>Diseño propio.</b> Desarrollado a partir de su identidad visual, sin plantilla.</p></li><li><p data-i="c.n2"><b>Vídeo tratado.</b> Cada pieza se procesa para conservar el color original.</p></li><li><p data-i="c.n3"><b>Bilingüe.</b> Español o inglés, según el idioma del visitante.</p></li></ul>
+      <p class="cierre"><a class="ola-enlace" href="https://omaryugc.com/" target="_blank" rel="noopener" data-i="c.ver">Ver el portafolio</a></p>
     </article>
   </section>
 

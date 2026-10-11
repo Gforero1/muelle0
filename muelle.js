@@ -1,4 +1,4 @@
-/* muelle0: idioma, relojes, agua con el 0 flotando, clips y recorrido de las capturas. Sin dependencias. */
+/* muelle0: idioma, agua con el 0 flotando, clips y recorrido de las capturas. Sin dependencias. */
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -34,17 +34,18 @@
     "b.p1": "A catalogue of over 140 products priced in dollars and paid in local currency, in a market where the exchange rate moves daily and a payment gateway is not viable for a small retailer.",
     "b.p2": "The shop calculates every price in both currencies at the official rate of the day and turns the cart into a complete order, which the customer sends over WhatsApp.",
     "b.n1": "<b>Automatic exchange rate.</b> The official rate is checked every hour, with no manual work.",
-    "b.n2": "<b>Two currencies</b> on every product and on the order total.",
+    "b.n2": "<b>Two currencies.</b> Every product and the order total are shown in both.",
     "b.n3": "<b>Structured order.</b> It arrives on WhatsApp with products, quantities and total, and is logged.",
     "b.n4": "<b>Self-managed.</b> The owner updates products, prices and photos from her panel.",
-    "b.w": "Search, categories and a catalogue that can be edited at any time.",
+    "b.n0": "Recording of an order in the shop.",
     "b.ver": "View the shop",
     "c.quien": "Omary Belisario, content creator",
     "c.t": "A portfolio that presents her work to a brand in under a minute.",
     "c.p1": "Omary produces video for beauty brands. Her portfolio used to be a slide deck; it is now a site of her own, with the work organised by category and a direct channel to request a quote.",
-    "c.n1": "<b>Custom design,</b> developed from her visual identity.",
+    "c.n1": "<b>Custom design.</b> Developed from her visual identity, with no template.",
     "c.n2": "<b>Processed video.</b> Each piece is treated to keep its original colour.",
     "c.n3": "<b>Bilingual.</b> Spanish or English, depending on the visitor's language.",
+    "c.n0": "The same portfolio, on a phone.",
     "c.ver": "View the portfolio",
     "tuyo.t": "What we build",
     "tuyo.p": "We work on specific sales and operations problems. These are the most common.",
@@ -77,22 +78,10 @@
     $$('[data-i]').forEach(function (el) { var k = el.getAttribute('data-i'); if (T[k] != null) el.innerHTML = T[k]; });
     document.documentElement.lang = idioma;
     $$('.idioma button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.value === idioma)); });
-    pintaPausa(); relojes();
+    pintaPausa();
     if (guardar) { try { localStorage.setItem('m0-idioma', idioma); } catch (e) {} }
   }
   $$('.idioma button').forEach(function (b) { b.addEventListener('click', function () { poner(b.value, true); }); });
-
-  /* ---------- Relojes ---------- */
-  function hora(zona) {
-    try { return new Intl.DateTimeFormat('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: zona }).format(new Date()); }
-    catch (e) { return ''; }
-  }
-  function relojes() {
-    var a = $('#h-bcn'), b = $('#h-lch');
-    if (a) a.textContent = hora('Europe/Madrid');
-    if (b) b.textContent = hora('America/Caracas');
-  }
-  relojes(); setInterval(relojes, 20000);
 
   /* ---------- Pausa única para todo lo que se mueve ---------- */
   var pausado = false;

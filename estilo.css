@@ -13,45 +13,52 @@
   --brocha:"Brocha","Trebuchet MS",sans-serif;
   --texto:"Texto","Segoe UI",sans-serif;
   --margen:clamp(18px,4.4vw,70px);
+  /* Escala de espacios: todo separador vertical sale de aquí */
+  --e1:clamp(18px,2vw,26px);    /* entre un elemento y su nota */
+  --e2:clamp(34px,5vw,70px);    /* entre bloques de un mismo proyecto */
+  --e3:clamp(90px,13vw,190px);  /* entre proyectos y entre secciones */
+  --hueco:clamp(20px,3.4vw,56px); /* entre columnas */
+  --cuerpo:clamp(17px,1.35vw,20px);
+  --sombra:10px 14px 0 rgba(22,22,22,.28);
 }
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--verde);color:var(--crema);font:400 18px/1.55 var(--texto);overflow-x:hidden}
+body{margin:0;background:var(--verde);color:var(--crema);font:400 var(--cuerpo)/1.55 var(--texto);overflow-x:hidden}
 img,svg,video{display:block;max-width:100%;height:auto}
 a{color:inherit}
-p{margin:0}
+p,figure{margin:0}
 :focus-visible{outline:3px solid var(--coral);outline-offset:3px}
 .cielo :focus-visible,.orilla :focus-visible{outline-color:var(--minio)}
-.oculto-visual{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 
 /* La voz de la marca: letra de rotulista, pintada con brocha plana */
 .brocha{font-family:var(--brocha);font-weight:900;line-height:1.03;letter-spacing:-.012em;margin:0;text-wrap:balance}
 
-/* Enlace con la ola del logo por debajo */
-.ola-enlace{display:inline-block;font:800 clamp(21px,1.9vw,27px)/1.1 var(--brocha);text-decoration:none;padding-bottom:.62em;background:url("marca/subrayado-coral.svg") left bottom/100% .55em no-repeat;transition:background-size .3s}
+/* Enlace con la ola del logo por debajo. Siempre del ancho de su texto. */
+.ola-enlace{display:inline-block;width:fit-content;font:800 clamp(21px,1.9vw,27px)/1.1 var(--brocha);text-decoration:none;padding-bottom:.62em;background:url("marca/subrayado-coral.svg") left bottom/100% .55em no-repeat;transition:background-size .3s}
 .ola-enlace:hover{background-size:100% .7em}
 .cielo .ola-enlace,.orilla .ola-enlace{background-image:url("marca/subrayado-minio.svg")}
+
+/* Nota a mano: solo para rotular una imagen o un clip */
+.nota{font:600 clamp(16px,1.25vw,19px)/1.3 var(--brocha);max-width:16em}
 
 /* ---------- Cielo: portada ---------- */
 .cielo{background:var(--crema);color:var(--verde);position:relative}
 .barra{display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);padding:18px var(--margen);position:relative;z-index:5}
 .barra .marca{width:54px;flex:none;margin-right:auto}
-.barra a.sec{font-weight:500;font-size:16px;text-decoration:none}
-.barra a.sec:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;text-decoration-color:var(--minio)}
+.barra .sec{font-weight:500;font-size:16px;text-decoration:none;padding:10px 0}
+.barra .sec:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;text-decoration-color:var(--minio)}
 .idioma{display:flex;gap:2px}
-.idioma button{font:700 14px/1 var(--texto);background:none;border:2px solid transparent;border-radius:99px;color:inherit;cursor:pointer;padding:7px 10px}
+.idioma button{font:700 14px/1 var(--texto);min-width:42px;min-height:40px;background:none;border:2px solid transparent;border-radius:99px;color:inherit;cursor:pointer;padding:0 10px}
 .idioma button[aria-pressed="true"]{border-color:var(--verde)}
 
 .portada{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(24px,5vw,90px);align-items:center;padding:clamp(6px,2vh,26px) var(--margen) 0;position:relative;z-index:3}
-.logo-grande{width:min(100%,760px);margin:0;transform:rotate(-2deg)}
+.logo-grande{width:min(100%,760px);transform:rotate(-2deg)}
 .logo-grande svg{width:100%;overflow:visible}
 .logo-grande .letras,.logo-grande .ola{fill:var(--verde)}
 .logo-grande .cero{fill:var(--minio)}
-.dice h1{font-size:clamp(31px,3.5vw,54px);margin-bottom:.5em}
-.dice .quienes{font-size:clamp(17px,1.35vw,20px);max-width:29em;margin-bottom:1em}
-.dice .hora{font-size:16px;margin-bottom:1.5em}
-.dice .hora b{font-family:var(--brocha);font-weight:800;color:var(--minio);font-size:1.12em}
+.dice h1{font-size:clamp(30px,3.4vw,52px);margin-bottom:.5em}
+.dice .quienes{max-width:29em;margin-bottom:1.4em}
 
 @media (prefers-reduced-motion:no-preference){
   .logo-grande .letras{animation:asoma .7s .05s both cubic-bezier(.2,.7,.2,1)}
@@ -71,53 +78,36 @@ p{margin:0}
 .flotador path{fill:var(--coral)}
 .pista{position:absolute;left:0;top:0;z-index:4;white-space:nowrap;font:700 17px/1 var(--brocha);color:var(--verde);pointer-events:none;transition:opacity .4s}
 .pista.fuera{opacity:0}
-.pausa{position:absolute;right:var(--margen);bottom:10px;z-index:4;background:none;border:0;color:var(--crema);font:500 14px/1 var(--texto);text-decoration:underline;text-underline-offset:4px;opacity:.75;cursor:pointer;padding:8px 0}
+.pausa{position:absolute;right:var(--margen);bottom:6px;z-index:4;min-height:40px;background:none;border:0;color:var(--crema);font:500 14px/1 var(--texto);text-decoration:underline;text-underline-offset:4px;opacity:.8;cursor:pointer;padding:0}
 .pausa:hover{opacity:1}
 
-/* ---------- Bajo el agua: trabajos ---------- */
-.mar{padding:clamp(20px,3vw,44px) var(--margen) clamp(50px,7vw,110px);margin-top:-1px}
-.entrada{max-width:15em;font-size:clamp(40px,6vw,96px);margin:0 0 clamp(50px,8vw,120px)}
+/* ---------- Bajo el agua: proyectos ---------- */
+.mar{padding:clamp(20px,3vw,44px) var(--margen) 0;margin-top:-1px}
+.entrada{max-width:15em;font-size:clamp(38px,6vw,96px);margin-bottom:var(--e3)}
 .entrada span{color:var(--coral)}
 
-.caso{margin-bottom:clamp(110px,16vw,240px)}
-.cuenta{max-width:60rem;margin-bottom:clamp(34px,5vw,70px)}
-.de-quien{font:800 clamp(19px,1.6vw,24px)/1.2 var(--brocha);color:var(--coral);margin-bottom:.7em}
-.caso h3{font-size:clamp(34px,4.7vw,72px);margin-bottom:.55em}
+/* Todos los proyectos siguen el mismo orden: relato, demostración, puntos y enlace */
+.caso{margin-bottom:var(--e3)}
+.cuenta{max-width:60rem;margin-bottom:var(--e2)}
+.de-quien{font:800 clamp(18px,1.6vw,24px)/1.2 var(--brocha);color:var(--coral);margin-bottom:.7em}
+.caso h3{font-size:clamp(32px,4.7vw,72px);margin-bottom:.55em}
 .cuenta p+p{margin-top:.8em}
-.cuenta p{max-width:38em;font-size:clamp(17px,1.35vw,20px)}
+.cuenta p{max-width:38em}
 
-/* notas a mano y flechas de brocha */
-.nota{font:600 clamp(16px,1.25vw,19px)/1.3 var(--brocha);max-width:15em;margin:0}
-.nota b{font-weight:900;color:var(--coral)}
-.flecha{width:clamp(46px,5vw,74px);color:var(--coral);flex:none}
-.flecha path{fill:none;stroke:currentColor;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.demo{display:grid;gap:var(--hueco);align-items:end}
+.demo.a{grid-template-columns:minmax(0,3fr) minmax(0,3.1fr) minmax(0,4.6fr);align-items:start}
+.demo.b{grid-template-columns:minmax(0,3fr) minmax(0,8fr)}
+.demo.c{grid-template-columns:minmax(0,8fr) minmax(0,3fr)}
+.demo.solo{grid-template-columns:minmax(0,8fr) minmax(0,3fr);margin-top:var(--e2)}
+.col-movil{display:grid;gap:var(--e1)}
 
-/* teléfono con grabación real */
-.movil{margin:0;border:7px solid var(--negro);border-radius:30px;background:var(--negro);overflow:hidden;aspect-ratio:432/864;position:relative;box-shadow:10px 14px 0 rgba(22,22,22,.3)}
+/* Teléfono: siempre recto. Dentro va una grabación o una captura que se recorre. */
+.movil{border:7px solid var(--negro);border-radius:30px;background:var(--negro);overflow:hidden;aspect-ratio:1/2;position:relative;box-shadow:var(--sombra)}
 .movil video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:23px}
+.movil .lienzo{position:absolute;inset:0;aspect-ratio:auto;border:0;box-shadow:none;border-radius:23px}
 
-/* papel: fotos pegadas */
-.papel{margin:0;background:var(--crema);padding:9px 9px 0;box-shadow:8px 12px 0 rgba(22,22,22,.28)}
-.papel img{width:100%}
-.papel figcaption{color:var(--verde);font:600 15px/1.25 var(--brocha);padding:9px 3px 11px}
-
-/* Creamdo: del teléfono a la sala */
-.prueba-a{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,3.1fr) minmax(0,4.6fr);gap:clamp(20px,3.4vw,60px);align-items:start}
-.prueba-a .col-movil{display:grid;gap:18px}
-.prueba-a .foto{transform:rotate(-3.5deg);margin-top:clamp(40px,9vw,150px);position:relative}
-.prueba-a .sala{transform:rotate(1.6deg)}
-.prueba-a .paso{display:flex;align-items:flex-end;gap:10px;margin:22px 0 0 8%}
-.prueba-a .paso .flecha{transform:rotate(-18deg)}
-.explica{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px clamp(24px,4vw,70px);max-width:56rem;margin:clamp(44px,6vw,90px) 0 0 auto}
-.explica p{max-width:25em}
-.explica p b{font-family:var(--brocha);font-weight:800;color:var(--coral)}
-
-/* la web del cliente, recorriéndose */
-.web{margin:clamp(50px,7vw,110px) 0 0;display:grid;grid-template-columns:minmax(0,3fr) minmax(0,8fr);gap:clamp(20px,4vw,70px);align-items:end}
-.web.al-reves{grid-template-columns:minmax(0,8fr) minmax(0,3fr)}
-.web.al-reves .lado{order:2}
-.lado{display:grid;gap:22px;justify-items:start;padding-bottom:10px}
-.lienzo{position:relative;overflow:hidden;aspect-ratio:16/10.2;background:#fff;border:9px solid var(--crema);box-shadow:10px 14px 0 rgba(22,22,22,.28)}
+/* Captura de escritorio: recta, con marco de papel */
+.lienzo{position:relative;overflow:hidden;aspect-ratio:16/10.2;background:#fff;border:9px solid var(--crema);box-shadow:var(--sombra)}
 .lienzo img{width:100%;will-change:transform}
 @media (prefers-reduced-motion:no-preference){
   .lienzo img{animation:recorre var(--seg,30s) cubic-bezier(.45,0,.55,1) infinite alternate;animation-play-state:paused}
@@ -126,70 +116,66 @@ p{margin:0}
 }
 @keyframes recorre{from{transform:translateY(0)}to{transform:translateY(calc(-100% + var(--alto,300px)))}}
 
-/* Tiendita: el pedido */
-.prueba-b{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,3fr) minmax(0,4fr);gap:clamp(20px,3.4vw,60px);align-items:center}
-.prueba-b .movil{transform:rotate(2deg)}
-.notas{display:grid;gap:clamp(26px,4vw,56px)}
-.notas .nota{display:flex;gap:12px;align-items:flex-start;max-width:none}
-.notas .nota span{max-width:15em}
-.notas.izq .nota{flex-direction:row-reverse;text-align:right;justify-content:flex-start}
-.notas.izq .flecha{transform:rotate(-24deg)}
-.notas.der .flecha{transform:scaleX(-1) rotate(-24deg)}
-.notas.izq{justify-items:end}
+/* Papel: fotos sueltas, las únicas piezas inclinadas */
+.papel{background:var(--crema);padding:9px 9px 0;box-shadow:var(--sombra)}
+.papel img{width:100%}
+.papel figcaption{color:var(--verde);font:600 15px/1.25 var(--brocha);padding:9px 3px 11px}
+.papel.foto{transform:rotate(-3deg);margin-top:clamp(30px,8vw,130px)}
+.papel.sala{transform:rotate(1.5deg)}
+.paso{display:flex;align-items:flex-end;gap:10px;margin:var(--e1) 0 0 8%}
+.flecha{width:clamp(40px,5vw,70px);color:var(--coral);flex:none;transform:rotate(-18deg)}
+.flecha path{fill:none;stroke:currentColor;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
 
-/* Omary: el portafolio con notas alrededor */
-.prueba-c{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,3fr);gap:clamp(20px,4vw,70px);align-items:center}
-.prueba-c .lienzo{transform:rotate(-1.2deg)}
-.prueba-c .notas .flecha{transform:scaleX(-1) rotate(-24deg)}
+/* Puntos: lo que se desarrolló a medida. Mismo componente en los tres proyectos. */
+.puntos{list-style:none;margin:var(--e2) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px var(--hueco)}
+.puntos b{display:block;font:800 clamp(19px,1.5vw,22px)/1.2 var(--brocha);color:var(--coral);margin-bottom:.35em}
+.puntos p{max-width:23em;font-size:clamp(16px,1.2vw,18px)}
+.cierre{margin-top:var(--e2)}
 
-/* ---------- Lo que podemos montar ---------- */
-.tuyo{padding:0 var(--margen) clamp(70px,10vw,150px)}
-.tuyo h2{font-size:clamp(44px,7vw,112px);margin-bottom:.12em}
-.tuyo .bajada{font-size:clamp(17px,1.35vw,20px);margin-bottom:clamp(40px,6vw,80px);max-width:30em}
-.preguntas{list-style:none;margin:0;padding:0;display:grid;gap:clamp(26px,3.6vw,50px)}
-.preguntas li{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:6px clamp(20px,4vw,70px);align-items:baseline;max-width:70rem}
-.preguntas li:nth-child(even){margin-left:clamp(0px,9vw,150px)}
-.preguntas li:nth-child(3n){margin-left:clamp(0px,4vw,70px)}
-.preguntas h3{font:900 clamp(25px,2.9vw,42px)/1.05 var(--brocha);color:var(--coral);margin:0;letter-spacing:-.01em}
-.preguntas p{font-size:clamp(17px,1.4vw,21px);max-width:24em}
+/* ---------- Servicios ---------- */
+.tuyo{padding:0 var(--margen) var(--e3)}
+.tuyo h2{font-size:clamp(34px,6vw,96px);margin-bottom:.2em}
+.tuyo .bajada{margin-bottom:var(--e2);max-width:30em}
+.preguntas{list-style:none;margin:0;padding:0;display:grid;gap:clamp(22px,3vw,40px);max-width:70rem}
+.preguntas li{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:6px var(--hueco);align-items:baseline}
+.preguntas h3{font:900 clamp(24px,2.7vw,40px)/1.08 var(--brocha);color:var(--coral);margin:0;letter-spacing:-.01em}
+.preguntas p{max-width:26em}
 
 /* ---------- Orilla: contacto ---------- */
 .rompiente{display:block;width:100%;height:clamp(40px,7vw,110px);margin-bottom:-1px}
 .rompiente path{fill:var(--crema)}
-.orilla{background:var(--crema);color:var(--verde);padding:clamp(30px,5vw,70px) var(--margen) clamp(36px,5vw,64px)}
-.orilla h2{font-size:clamp(36px,5.4vw,84px);max-width:13em;margin-bottom:.35em}
-.orilla .bajada{font-size:clamp(17px,1.35vw,20px);margin-bottom:clamp(30px,4vw,54px)}
-.correo{display:inline-block;font:900 clamp(26px,5.6vw,92px)/1.05 var(--brocha);letter-spacing:-.015em;color:var(--minio);text-decoration:none;overflow-wrap:anywhere;padding-bottom:.36em;background:url("marca/subrayado-verde.svg") left bottom/100% .34em no-repeat}
+.orilla{background:var(--crema);color:var(--verde);padding:var(--e2) var(--margen) clamp(36px,5vw,64px)}
+.orilla h2{font-size:clamp(34px,5.4vw,84px);max-width:13em;margin-bottom:.35em}
+.orilla .bajada{max-width:34em;margin-bottom:var(--e2)}
+.correo{display:inline-block;font:900 clamp(25px,5.6vw,92px)/1.05 var(--brocha);letter-spacing:-.015em;color:var(--minio);text-decoration:none;overflow-wrap:anywhere;padding-bottom:.36em;background:url("marca/subrayado-verde.svg") left bottom/100% .34em no-repeat}
 .correo:hover{color:var(--verde)}
-.mas{display:flex;flex-wrap:wrap;gap:16px 44px;align-items:baseline;margin-top:clamp(26px,3.6vw,48px)}
-.pie{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:clamp(60px,9vw,130px);font-size:15px}
+.mas{margin-top:var(--e2)}
+.pie{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:var(--e3);font-size:15px}
 .pie img{width:clamp(120px,13vw,170px)}
 
-/* ---------- Pantallas pequeñas ---------- */
-@media (max-width:900px){
-  body{font-size:17px}
-  .barra{flex-wrap:wrap}
+/* ---------- Tableta ---------- */
+@media (max-width:1100px){
+  .puntos{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ---------- Teléfono: en cada proyecto, primero el móvil con su nota y luego la captura ---------- */
+@media (max-width:760px){
+  .barra{gap:16px}
   .barra .marca{width:46px}
-  .barra a.sec:nth-of-type(3){display:none}
+  .barra .sec.opcional{display:none}
   .portada{grid-template-columns:1fr;gap:22px;padding-top:14px}
   .logo-grande{transform:rotate(-1.5deg)}
   .agua{height:220px;margin-top:6px}
-  .prueba-a{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px 18px}
-  .prueba-a .col-movil{grid-column:1/3;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center}
-  .prueba-a .foto{margin-top:0}
-  .prueba-a .paso{margin-left:0}
-  .explica{grid-template-columns:1fr;margin-left:0}
-  .web,.web.al-reves{grid-template-columns:1fr}
-  .web.al-reves .lado{order:0}
-  .prueba-b{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}
-  .prueba-b .movil{grid-column:1;grid-row:1/3}
-  .prueba-b .notas{grid-column:2}
-  .notas.izq{justify-items:start}
-  .notas.izq .nota{flex-direction:row;text-align:left}
-  .notas.izq .flecha,.notas.der .flecha{transform:scaleX(-1) rotate(-24deg);width:34px}
-  .prueba-c .notas .flecha{transform:rotate(-130deg);width:34px}
-  .prueba-c{grid-template-columns:1fr}
+  .demo.b,.demo.c,.demo.solo{grid-template-columns:1fr}
+  .demo.a{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--e2) 18px}
+  .demo.a .col-movil{grid-column:1/3}
+  .col-movil{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:var(--hueco)}
+  .demo.c .col-movil{order:-1}
+  .demo.b,.demo.c{gap:var(--e2)}
+  .papel.foto{margin-top:0}
+  .paso{margin-left:0}
+  .puntos{grid-template-columns:1fr;gap:22px}
   .preguntas li{grid-template-columns:1fr}
-  .preguntas li:nth-child(n){margin-left:0}
   .lienzo{border-width:6px}
+  .movil .lienzo{border-width:0}
 }
