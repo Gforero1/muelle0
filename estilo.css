@@ -108,14 +108,13 @@ p,figure{margin:0}
 
 /* Captura de escritorio: recta, con marco de papel */
 .lienzo{position:relative;overflow:hidden;aspect-ratio:16/10.2;background:#fff;border:9px solid var(--crema);box-shadow:var(--sombra)}
-.lienzo img{width:100%}
-.viva .lienzo img{will-change:transform} /* la capa solo existe mientras la captura está en pantalla */
+.lienzo img{width:100%;will-change:transform}
 @media (prefers-reduced-motion:no-preference){
-  .lienzo img{animation:recorre var(--seg,30s) cubic-bezier(.45,0,.55,1) infinite alternate;animation-play-state:paused}
+  .lienzo img{animation:recorre var(--seg,30s) linear infinite alternate;animation-play-state:paused}
   .viva .lienzo img{animation-play-state:running}
   .quieto .lienzo img{animation-play-state:paused}
 }
-@keyframes recorre{from{transform:translateY(0)}to{transform:translateY(calc(-100% + var(--alto,300px)))}}
+@keyframes recorre{0%,2%{transform:translateY(0)}98%,100%{transform:translateY(calc(-100% + var(--alto,300px)))}}
 
 /* Papel: fotos sueltas, las únicas piezas inclinadas */
 .papel{background:var(--crema);padding:9px 9px 0;box-shadow:var(--sombra)}

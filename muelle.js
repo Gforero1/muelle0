@@ -61,7 +61,7 @@
   if ('IntersectionObserver' in window) {
     var vigia = new IntersectionObserver(function (es) {
       es.forEach(function (e) { e.target.classList.toggle('viva', e.isIntersecting); });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.05 });
     $$('.pantallas').forEach(function (p) { vigia.observe(p); });
   }
 
