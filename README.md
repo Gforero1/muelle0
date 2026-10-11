@@ -3,7 +3,7 @@
 Web del estudio: portafolio de lo que montamos. Estática, sin dependencias.
 
 - `index.html`: se genera con `herramientas/monta_index.py` (inyecta los trazos del logo). Los textos en español están ahí; el inglés, en `muelle.js` (`EN`).
-- `estilo.css`: estilos. `muelle.js`: idioma, relojes, agua, clips y recorrido de las capturas.
+- `estilo.css`: estilos. `muelle.js`: idioma, agua, clips y recorrido de las capturas.
 - `marca/`: logo y monograma vectorizados desde el manual de marca de Canva, la ola del logo como subrayado, favicon e imagen para compartir.
 - `trabajos/`: capturas largas de cada web y el antes y después de Creamdo (WebP).
 - `clips/`: grabaciones reales, mudas y en bucle (MP4 H.264 de 390 px de ancho, con póster).
@@ -19,7 +19,7 @@ Sale del manual de marca ("Manual de marca muelle0" en Canva) y del logo, que es
 - **Logo:** nunca se deforma ni se recolorea. La ola del logo se usa tal cual como subrayado de los enlaces (solo se estira a lo ancho).
 - **Trabajos:** cada uno cuenta qué hubo que inventar, no solo qué web es. Se enseña con material real: grabación del panel o del pedido, fotos pegadas como en un corcho, y notas a mano con flechas señalando lo que se hizo a medida. Cada trabajo tiene una composición distinta.
 - **Movimiento:** el logo se traza al cargar; el agua responde al ratón y el 0 se puede agarrar y lanzar; los clips y las capturas se mueven solo mientras están en pantalla. Un enlace pausa todo y nada se mueve con `prefers-reduced-motion`.
-- **Textos:** en primera persona del plural, con datos reales de cada cliente. La plataforma no es el mensaje: se vende la solución.
+- **Textos:** sobrios y concretos. Cada proyecto se cuenta como problema, solución y prueba; los servicios, como lo que el cliente consigue. Sin lemas, sin frases promocionales y sin insistir en el origen del estudio. Llamada a la acción única: escribir contando el problema.
 - **Lo que no tiene:** numeración decorativa, tarjetas, contadores, testimonios, iconos de línea.
 
 ## Cómo se hicieron los clips
