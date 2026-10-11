@@ -22,8 +22,10 @@ html=f'''<!doctype html>
 <link rel="apple-touch-icon" href="marca/icono-180.png">
 <meta property="og:title" content="muelle0 | Diseño y desarrollo web a medida">
 <meta property="og:description" content="Webs y herramientas a medida para negocios que venden en línea.">
-<meta property="og:image" content="https://gforero1.github.io/muelle0/marca/compartir.png">
+<meta property="og:image" content="https://muelle0.com/marca/compartir.png">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://muelle0.com/">
+<link rel="canonical" href="https://muelle0.com/">
 <link rel="preload" href="fuentes/recursive-brocha.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="estilo.css?v={V}">
 </head>
