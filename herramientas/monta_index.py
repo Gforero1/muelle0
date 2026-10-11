@@ -26,6 +26,8 @@ html=f'''<!doctype html>
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://muelle0.com/">
 <link rel="canonical" href="https://muelle0.com/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"ProfessionalService","name":"muelle0","url":"https://muelle0.com/","logo":"https://muelle0.com/marca/icono-180.png","image":"https://muelle0.com/marca/compartir.png","description":"Diseño y desarrollo de webs y herramientas a medida para negocios que venden en línea: catálogos, tiendas, paneles de gestión y automatizaciones con IA.","email":"muelle0agencia@gmail.com","sameAs":["https://www.instagram.com/muelle0agencia/"],"knowsLanguage":["es","en"]}}</script>
 <link rel="preload" href="fuentes/recursive-brocha.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="estilo.css?v={V}">
 </head>
