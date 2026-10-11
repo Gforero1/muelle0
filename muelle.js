@@ -1,4 +1,4 @@
-/* muelle0: idioma, relojes, agua con el 0 flotando y recorrido de las capturas. Sin dependencias. */
+/* muelle0: idioma, relojes, agua con el 0 flotando, clips y recorrido de las capturas. Sin dependencias. */
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -7,31 +7,54 @@
 
   /* ---------- Idioma: el del dispositivo, o el que la persona elija ---------- */
   var EN = {
-    'nav.trabajos': 'Work', 'nav.modo': 'How we work', 'nav.contacto': 'Contact',
-    'titulo': '<b>Web studio.</b> We hand-build sites, catalogues and shops for small brands, and leave each one with its own admin so the owner can run it without us.',
-    'reloj.raices': 'Venezuelan roots',
-    'ir': 'See the work', 'pista': 'Grab it and throw it', 'pausa.on': 'Pause motion', 'pausa.off': 'Resume motion',
-    'trabajos.t': 'Work', 'trabajos.p': 'Three sites live. Each capture is the real site, scrolling.',
-    'k.tipo': 'Type', 'k.idiomas': 'Languages', 'k.pedido': 'Orders', 'k.plataforma': 'Platform', 'k.dominio': 'Domain', 'k.monedas': 'Currencies', 'k.catalogo': 'Catalogue',
-    'ver': 'Visit the site',
-    'c1.lugar': '001 · Lechería, Venezuela · Art',
-    'c1.r': 'An art catalogue in Spanish and English. Every piece shows its measurements and price, and enquiries go straight to Adriana Moncayo on WhatsApp. Behind it sits an admin where she uploads a photo of a painting and sees it hung, to scale, in a room.',
-    'c1.tipo': 'Catalogue with private admin', 'c1.pedido': 'Enquiry by WhatsApp, one piece at a time',
-    'c2.lugar': '002 · Barcelona · UGC creator',
-    'c2.r': 'Portfolio for a beauty UGC creator. Videos sorted by category, the brands she has worked with and a clear way to ask for a quote. In Spanish and English, on Shopify, on her own domain.',
-    'c2.tipo': 'Video portfolio', 'c2.plataforma': 'Shopify, custom theme',
-    'c3.lugar': '003 · Lechería, Venezuela · Physiotherapy',
-    'c3.r': 'A shop with over 140 products and no payment gateway: customers build their order and send it by WhatsApp. Prices show in dollars and bolívares at the day\'s official BCV rate, and the owner changes products, prices and photos from her own admin.',
-    'c3.tipo': 'Shop with WhatsApp ordering', 'c3.monedas': '$ and Bs, BCV rate updated automatically', 'c3.catalogo': 'Google Sheets with a private admin',
-    'libre.n': '004 · Free berth', 'libre.t': 'This spot is open.', 'libre.p': 'Tell us what you sell and how people buy from you today. We reply with what we would build.', 'libre.a': 'Write to us',
-    'modo.t': 'How we <em>work</em>',
-    'p1.t': 'We look at what you already have', 'p1.p': 'Your Instagram, your logo, your photos and how people buy from you today. Colours, tone and structure come from there, not from a template.',
-    'p2.t': 'We build it by hand', 'p2.p': 'Our own code, light, in the languages you need. If your business calls for Shopify, we build it on Shopify.',
-    'p3.t': 'We leave it ready to run', 'p3.p': 'With a private admin to change prices, photos and products from your phone, without writing to us.',
-    'p4.t': 'It stays in your name', 'p4.p': 'Domain, accounts and content are yours from day one.',
-    'm1': 'Catalogues', 'm2': 'Portfolios', 'm3': 'Shops', 'm4': 'Private admins',
-    'contacto.t': 'Contact', 'contacto.p': 'We answer in Spanish or English.',
-    'pie': 'muelle0 · Web studio · Venezuelan roots'
+    'nav.trabajos': 'Work', 'nav.tuyo': 'What we build', 'nav.contacto': 'Write to us',
+    'titulo': 'Websites made to measure. And when a website is not enough, the tool that was missing.',
+    'quienes': 'We are a small studio with Venezuelan roots. We work with businesses that sell for real: over WhatsApp, in two currencies and with photos taken on a phone.',
+    'hora': 'Right now it is <b id="h-bcn">--:--</b> in Barcelona and <b id="h-lch">--:--</b> in Lechería.',
+    'ir': 'See what we have built', 'pista': 'Grab it and throw it', 'pausa.on': 'Pause motion', 'pausa.off': 'Resume motion',
+    'entrada': 'Three projects. <span>Each one needed something invented.</span>',
+    'a.quien': 'Creamdo Art, in Lechería',
+    'a.t': 'A tool that hangs every painting in a room.',
+    'a.p1': 'Adriana Moncayo represents Venezuelan artists. Showing how a piece looks on a wall meant editing each photo by hand, hours per painting.',
+    'a.p2': 'We built her an admin of her own. She takes the photo on her phone, marks the corners, types the measurements and picks a room. The piece appears hung at its real size, ready to publish.',
+    'a.n1': 'The real admin, recorded with a piece from the catalogue.',
+    'a.c1': 'The photo, straight from the phone.',
+    'a.n2': 'Five steps, from her phone.',
+    'a.c2': 'The same piece, straightened and to scale: 120 × 90 cm looks like 120 × 90 cm. Reference image.',
+    'a.e1': '<b>The artwork is never invented.</b> The AI only blends the light and shadow of the room. Then the admin pastes the real photo back on top.',
+    'a.e2': '<b>It checks itself.</b> If the AI moved or changed the piece, the admin notices and throws that version away.',
+    'a.e3': '<b>Every wall is measured.</b> Seven rooms, from a penthouse to a shelf, calibrated so the scale is the real one.',
+    'a.e4': '<b>Made for her.</b> Three big buttons, numbered steps and nothing to learn.',
+    'a.w': 'And the site: a catalogue in Spanish and English, where every enquiry reaches her WhatsApp with the name of the piece.',
+    'a.ver': 'Visit Creamdo Art',
+    'b.quien': 'La Tiendita del Fisio, in Lechería',
+    'b.t': 'A shop that charges in bolívares at today\'s rate, with no payment gateway.',
+    'b.p1': 'Over 140 physiotherapy products priced in dollars, customers who pay in bolívares and a rate that changes every day. And a payment gateway that, in Venezuela, is out of reach for a small shop.',
+    'b.p2': 'So the order is built on the site and sent over WhatsApp, with the total already worked out in both currencies.',
+    'b.n1': '<b>The official rate updates itself</b> every hour. Nobody has to remember.',
+    'b.n2': '<b>Every price shows twice:</b> in dollars and in bolívares.',
+    'b.n3': '<b>The order arrives written out on WhatsApp</b> and is also logged in a sheet.',
+    'b.n4': '<b>The owner runs it herself:</b> she changes products, prices and photos from her admin.',
+    'b.w': 'Search, categories and a catalogue she edits whenever she wants.',
+    'b.ver': 'Visit the shop',
+    'c.quien': 'Omary Belisario, in Barcelona',
+    'c.t': 'A portfolio that lets a brand see her work in half a minute.',
+    'c.p1': 'Omary films beauty videos for brands. Her portfolio used to be a loose slide deck; now it is a site of her own, with videos sorted by category and a direct way to ask for a quote.',
+    'c.n1': '<b>Designed from scratch,</b> from her colours and her logo. No template.',
+    'c.n2': '<b>Every iPhone video is treated</b> so the colour does not come out washed.',
+    'c.n3': '<b>Spanish or English,</b> depending on who visits.',
+    'c.ver': 'Visit omaryugc.com',
+    'tuyo.t': 'And yours?',
+    'tuyo.p': 'Almost everything we have built started with a sentence like these.',
+    'q1': '“I sell over WhatsApp and get lost in the messages.”', 'r1': 'A catalogue where customers build their order and it reaches you written out, total included.',
+    'q2': '“I charge in two currencies.”', 'r2': 'Prices that convert themselves at the day\'s rate.',
+    'q3': '“Photos eat my hours.”', 'r3': 'An AI tool that prepares them for you and never makes the product up.',
+    'q4': '“To change a price I have to ask someone.”', 'r4': 'An admin of your own, on your phone, built to make sense the first time.',
+    'q5': '“I have customers abroad.”', 'r5': 'The site in the languages you need, depending on who visits. And if a shop with online checkout suits you, we build that too.',
+    'q6': '“Mine is a strange one.”', 'r6': 'Those are the jobs we like best. If it can be automated, measured or simplified, we will find the way.',
+    'contacto.t': 'Tell us what you sell and how people buy from you today.',
+    'contacto.p': 'We will answer with what we would build. In Spanish or English.',
+    'pie': 'Web studio with Venezuelan roots.'
   };
   var ES = {};
   $$('[data-i]').forEach(function (el) { ES[el.getAttribute('data-i')] = el.innerHTML; });
@@ -44,7 +67,7 @@
     $$('[data-i]').forEach(function (el) { var k = el.getAttribute('data-i'); if (T[k] != null) el.innerHTML = T[k]; });
     document.documentElement.lang = idioma;
     $$('.idioma button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.value === idioma)); });
-    pintaPausa();
+    pintaPausa(); relojes();
     if (guardar) { try { localStorage.setItem('m0-idioma', idioma); } catch (e) {} }
   }
   $$('.idioma button').forEach(function (b) { b.addEventListener('click', function () { poner(b.value, true); }); });
@@ -77,7 +100,24 @@
       document.body.classList.toggle('quieto', pausado);
       pintaPausa();
       if (!pausado) arranca();
+      clips.forEach(function (v) { if (pausado) v.pause(); else if (v.dataset.visto === '1') toca(v); });
     });
+  }
+
+  /* ---------- Clips: grabaciones reales, mudas y en bucle, solo mientras están en pantalla ---------- */
+  var clips = $$('video[data-src]');
+  var ahorro = navigator.connection && navigator.connection.saveData;
+  function toca(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+  if (!reduce && !ahorro && 'IntersectionObserver' in window) {
+    var cine = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var v = e.target;
+        v.dataset.visto = e.isIntersecting ? '1' : '0';
+        if (e.isIntersecting) { if (!v.src) v.src = v.getAttribute('data-src'); if (!pausado) toca(v); }
+        else v.pause();
+      });
+    }, { rootMargin: '200px 0px', threshold: 0.2 });
+    clips.forEach(function (v) { cine.observe(v); });
   }
 
   /* ---------- Capturas que se recorren solas mientras están en pantalla ---------- */
@@ -169,7 +209,7 @@
     for (x = 0; x <= W + PASO; x += PASO) ctx.lineTo(x, nivel(Math.min(x, W)));
     ctx.lineTo(W, H); ctx.closePath(); ctx.fillStyle = VERDE; ctx.fill();
     flot.style.transform = 'translate(' + (c.x - c.t / 2).toFixed(1) + 'px,' + (c.y - c.alto / 2).toFixed(1) + 'px) rotate(' + c.a.toFixed(3) + 'rad)';
-    if (pista && !pista.classList.contains('fuera')) pista.style.transform = 'translate(' + Math.max(4, c.x - c.t * 0.8 - pista.offsetWidth).toFixed(0) + 'px,' + (c.y - c.alto * 0.62).toFixed(0) + 'px)';
+    if (pista && !pista.classList.contains('fuera')) pista.style.transform = 'translate(' + Math.max(4, c.x - c.t * 0.75 - pista.offsetWidth).toFixed(0) + 'px,' + (c.y - c.alto * 0.62).toFixed(0) + 'px)';
   }
   function vuelta() {
     if (pausado || !visible || reduce) { enMarcha = false; return; }
