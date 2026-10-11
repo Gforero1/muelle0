@@ -2,7 +2,7 @@
 
 Web del estudio: portafolio de lo que montamos. Estática, sin dependencias.
 
-- `index.html`: se genera con `herramientas/monta_index.py` (inyecta los trazos del logo). Los textos en español están ahí; el inglés, en `muelle.js` (`EN`).
+- `index.html` (español) y `en/index.html` (inglés): se generan con `herramientas/monta_index.py`. Los textos en español están en ese script; los ingleses, en `herramientas/en.json`. Cada idioma tiene su dirección y sus etiquetas `hreflang`.
 - `estilo.css`: estilos. `muelle.js`: idioma, agua, clips y recorrido de las capturas.
 - `marca/`: logo y monograma vectorizados desde el manual de marca de Canva, la ola del logo como subrayado, favicon e imagen para compartir.
 - `trabajos/`: capturas largas de cada web y el antes y después de Creamdo (WebP).
@@ -32,7 +32,7 @@ Sale del manual de marca ("Manual de marca muelle0" en Canva) y del logo, que es
 
 1. Material real: grabación de pantalla o capturas largas, en `clips/` y `trabajos/`.
 2. Un `<article class="caso">` nuevo en `herramientas/monta_index.py`: de quién es, qué hubo que inventar y las notas.
-3. Sus textos en inglés en `muelle.js` (`EN`).
+3. Sus textos en inglés en `herramientas/en.json`.
 4. Subir la versión `V` del script y ejecutar `python3 herramientas/monta_index.py`.
 
 ## Contacto que aparece en la web

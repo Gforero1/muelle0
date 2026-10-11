@@ -6,7 +6,7 @@ cero=f'<svg viewBox="355 0 254 440" aria-hidden="true"><path fill-rule="evenodd"
 # La ola del logo, tal cual, como subrayado (solo se estira a lo ancho)
 for nombre,color in [('coral','#F0694C'),('minio','#D2452D'),('verde','#0F3B3A')]:
     pathlib.Path(f'marca/subrayado-{nombre}.svg').write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="236 374 1194 310" preserveAspectRatio="none"><path fill="{color}" fill-rule="evenodd" d="{gp[1][2]}"/></svg>')
-V='5'
+V='6'
 FL='<svg class="flecha" viewBox="0 0 100 70" aria-hidden="true"><path d="M6 12 C 38 4, 72 18, 86 54"/><path d="M66 46 L 87 56 L 94 33"/></svg>'
 def lienzo(img,h,alt): return f'<div class="lienzo"><img src="trabajos/{img}.webp?v={V}" width="1400" height="{h}" alt="{alt}" loading="lazy" decoding="async"></div>'
 def clip(n,label): return f'<figure class="movil"><video data-src="clips/{n}.mp4?v={V}" poster="clips/{n}.jpg?v={V}" muted loop playsinline preload="none" aria-label="{label}"></video></figure>'
@@ -26,6 +26,10 @@ html=f'''<!doctype html>
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://muelle0.com/">
 <link rel="canonical" href="https://muelle0.com/">
+<link rel="alternate" hreflang="es" href="https://muelle0.com/">
+<link rel="alternate" hreflang="en" href="https://muelle0.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://muelle0.com/">
+<meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"ProfessionalService","name":"muelle0","url":"https://muelle0.com/","logo":"https://muelle0.com/marca/icono-180.png","image":"https://muelle0.com/marca/compartir.png","description":"Diseño y desarrollo de webs y herramientas a medida para negocios que venden en línea: catálogos, tiendas, paneles de gestión y automatizaciones con IA.","email":"muelle0agencia@gmail.com","sameAs":["https://www.instagram.com/muelle0agencia/"],"knowsLanguage":["es","en"]}}</script>
 <link rel="preload" href="fuentes/recursive-brocha.woff2" as="font" type="font/woff2" crossorigin>
@@ -39,8 +43,8 @@ html=f'''<!doctype html>
     <a class="sec opcional" href="#tuyo" data-i="nav.tuyo">Servicios</a>
     <a class="sec" href="#contacto" data-i="nav.contacto">Contacto</a>
     <div class="idioma" role="group" aria-label="Idioma / Language">
-      <button type="button" value="es" aria-pressed="true">ES</button>
-      <button type="button" value="en" aria-pressed="false">EN</button>
+      <a href="./" hreflang="es" lang="es" aria-current="true" aria-label="Español">ES</a>
+      <a href="en/" hreflang="en" lang="en" aria-label="English">EN</a>
     </div>
   </div>
   <div class="portada">
@@ -157,4 +161,42 @@ html=f'''<!doctype html>
 </html>
 '''
 open('index.html','w').write(html)
-print(len(html))
+
+# ---------- Versión en inglés: misma página, textos de _src/en.json, en /en/ ----------
+import os
+EN=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'en.json')))
+en=html
+for k,v in EN.items():
+    pat=re.compile(r'(<(\w+)[^>]*data-i="'+re.escape(k)+r'"[^>]*>)(.*?)(</\2>)',re.S)
+    en=pat.sub(lambda m:m.group(1)+v+m.group(4),en)
+ATR=[
+ ('<html lang="es">','<html lang="en">'),
+ ('<title>muelle0 | Diseño y desarrollo web a medida</title>','<title>muelle0 | Custom web design and development</title>'),
+ ('content="muelle0 | Diseño y desarrollo web a medida"','content="muelle0 | Custom web design and development"'),
+ ('content="Desarrollamos webs y herramientas a medida para negocios que venden en línea: catálogos, tiendas, paneles de gestión y automatizaciones con IA."','content="We build custom websites and tools for businesses that sell online: catalogues, shops, admin panels and AI automation."'),
+ ('content="Webs y herramientas a medida para negocios que venden en línea."','content="Custom websites and tools for businesses that sell online."'),
+ ('"description":"Diseño y desarrollo de webs y herramientas a medida para negocios que venden en línea: catálogos, tiendas, paneles de gestión y automatizaciones con IA."','"description":"Custom web design and development for businesses that sell online: catalogues, shops, admin panels and AI automation."'),
+ ('<meta property="og:url" content="https://muelle0.com/">','<meta property="og:url" content="https://muelle0.com/en/">'),
+ ('<link rel="canonical" href="https://muelle0.com/">','<link rel="canonical" href="https://muelle0.com/en/">'),
+ ('content="es_ES"','content="en_GB"'),
+ ('<a href="./" hreflang="es" lang="es" aria-current="true" aria-label="Español">ES</a>','<a href="../" hreflang="es" lang="es" aria-label="Español">ES</a>'),
+ ('<a href="en/" hreflang="en" lang="en" aria-label="English">EN</a>','<a href="./" hreflang="en" lang="en" aria-current="true" aria-label="English">EN</a>'),
+ ('aria-label="muelle0, inicio"','aria-label="muelle0, home"'),
+ ('aria-label="El 0 de muelle0 flotando. Enter lo lanza al aire."','aria-label="The 0 from muelle0, floating. Press Enter to throw it in the air."'),
+ ('>Pausar movimiento<','>Pause motion<'),
+ ('alt="El mismo cuadro, enderezado y colgado a escala sobre un sofá en una sala con vista al mar"','alt="The same painting, straightened and hung to scale above a sofa in a room with a sea view"'),
+ ('alt="Foto de un cuadro tomada con el teléfono, torcida y con la pared alrededor"','alt="Photo of a painting taken on a phone, skewed and with the wall around it"'),
+ ('alt="Recorrido por La Tiendita del Fisio: buscador, categorías y productos con precio en dos monedas"','alt="Scroll through La Tiendita del Fisio: search, categories and products priced in two currencies"'),
+ ('alt="Recorrido por el portafolio de Omary Belisario en escritorio: portada, sobre mí y vídeos por categoría"','alt="Scroll through Omary Belisario\'s portfolio on desktop: home, about and videos by category"'),
+ ('alt="Recorrido por el portafolio de Omary Belisario en un teléfono"','alt="Scroll through Omary Belisario\'s portfolio on a phone"'),
+ ('alt="Recorrido por la web de Creamdo Art: portada, obras con medidas y precio, y servicios"','alt="Scroll through the Creamdo Art site: home, artworks with measurements and price, and services"'),
+ ('aria-label="Grabación de un pedido en La Tiendita del Fisio: se añaden tres productos y se abre el pedido con el total en dólares y en moneda local"','aria-label="Recording of an order in La Tiendita del Fisio: three products are added and the order opens with the total in dollars and local currency"'),
+ ('aria-label="Grabación del panel de Creamdo: se sube la foto de un cuadro, se marcan las esquinas, se escriben las medidas y aparece colgado en una sala"','aria-label="Recording of the Creamdo admin panel: a photo of a painting is uploaded, its corners are marked, its measurements are entered and it appears hung in a room"'),
+]
+for a,b in ATR:
+    assert a in en,a
+    en=en.replace(a,b)
+for pre in ['href="estilo.css','src="muelle.js','src="marca/','href="marca/','src="trabajos/','src="clips/','poster="clips/','href="fuentes/']:
+    en=en.replace(pre, pre.replace('="','="../'))
+os.makedirs(os.path.join(os.path.dirname(os.path.abspath('index.html')),'en'),exist_ok=True)
+open('en/index.html','w').write(en)

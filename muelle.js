@@ -5,91 +5,16 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  /* ---------- Idioma: el del dispositivo, o el que la persona elija ---------- */
-  var EN = {
-    "nav.trabajos": "Work",
-    "nav.tuyo": "Services",
-    "nav.contacto": "Contact",
-    "titulo": "We build custom websites and tools for businesses that sell online.",
-    "quienes": "Catalogues, shops, portfolios and admin panels. Every project starts from how the business sells today and ends in something its team can run without depending on us.",
-    "ir": "See the work",
-    "pista": "Drag it",
-    "entrada": "Recent projects, <span>and the problem each one solved.</span>",
-    "a.quien": "Creamdo Art, art catalogue",
-    "a.t": "From a phone photo to an artwork shown in a room, at real scale.",
-    "a.p1": "Showing each piece in a real space meant editing every photograph by hand, which delayed publishing the catalogue.",
-    "a.p2": "We built a private admin panel with AI assistance. Whoever manages the catalogue uploads the photo, enters the measurements and picks a room. The system straightens the image, places it to scale and leaves it ready to publish.",
-    "a.n1": "Recording of the panel in use.",
-    "a.c1": "Original photo, taken on a phone.",
-    "a.n2": "Five guided steps.",
-    "a.c2": "Result: the same piece, corrected and at real scale (120 × 90 cm). Reference image.",
-    "a.e1": "<b>Faithful to the artwork.</b> The AI only adjusts the light and shadow of the setting. The published piece is always the original photograph.",
-    "a.e2": "<b>Automatic check.</b> If the AI alters the piece, the system detects it and discards the result.",
-    "a.e3": "<b>Real scale.</b> Seven calibrated rooms, so the dimensions of each piece match the real ones.",
-    "a.e4": "<b>No learning curve.</b> A guided flow used from a phone, with no training needed.",
-    "a.w": "The public catalogue: bilingual, with a page per piece and direct enquiries over WhatsApp.",
-    "a.ver": "View the catalogue",
-    "b.quien": "La Tiendita del Fisio, physiotherapy equipment shop",
-    "b.t": "Selling in two currencies, with the exchange rate updated every hour.",
-    "b.p1": "A catalogue of over 140 products priced in dollars and paid in local currency, in a market where the exchange rate moves daily and a payment gateway is not viable for a small retailer.",
-    "b.p2": "The shop calculates every price in both currencies at the official rate of the day and turns the cart into a complete order, which the customer sends over WhatsApp.",
-    "b.n1": "<b>Automatic exchange rate.</b> The official rate is checked every hour, with no manual work.",
-    "b.n2": "<b>Two currencies.</b> Every product and the order total are shown in both.",
-    "b.n3": "<b>Structured order.</b> It arrives on WhatsApp with products, quantities and total, and is logged.",
-    "b.n4": "<b>Self-managed.</b> The owner updates products, prices and photos from her panel.",
-    "b.n0": "Recording of an order in the shop.",
-    "b.ver": "View the shop",
-    "c.quien": "Omary Belisario, content creator",
-    "c.t": "A portfolio that presents her work to a brand in under a minute.",
-    "c.p1": "Omary produces video for beauty brands. Her portfolio used to be a slide deck; it is now a site of her own, with the work organised by category and a direct channel to request a quote.",
-    "c.n1": "<b>Custom design.</b> Developed from her visual identity, with no template.",
-    "c.n2": "<b>Processed video.</b> Each piece is treated to keep its original colour.",
-    "c.n3": "<b>Bilingual.</b> Spanish or English, depending on the visitor's language.",
-    "c.n0": "The same portfolio, on a phone.",
-    "c.ver": "View the portfolio",
-    "tuyo.t": "What we build",
-    "tuyo.p": "We work on specific sales and operations problems. These are the most common.",
-    "q1": "Online catalogues and shops",
-    "r1": "With WhatsApp ordering or online payment, depending on how the business sells.",
-    "q2": "Admin panels",
-    "r2": "To update products, prices and content without depending on a developer.",
-    "q3": "AI tools",
-    "r3": "They automate repetitive work, such as preparing product photos, with checks that verify the result.",
-    "q4": "Multi-currency pricing",
-    "r4": "Automatic conversion at the day's exchange rate, on every product and on the total.",
-    "q5": "Multilingual sites",
-    "r5": "Content is shown in each visitor's language.",
-    "q6": "Automation",
-    "r6": "Orders that log themselves and data connected to the tools the business already uses.",
-    "contacto.t": "Tell us what your business needs.",
-    "contacto.p": "Describe what you sell and the problem you want to solve. We reply with a specific proposal, in Spanish or English.",
-    "pie": "Custom web design and development.",
-    "pausa.on": "Pause motion",
-    "pausa.off": "Resume motion"
-  };
-  var ES = {};
-  $$('[data-i]').forEach(function (el) { ES[el.getAttribute('data-i')] = el.innerHTML; });
-  ES['pausa.on'] = 'Pausar movimiento'; ES['pausa.off'] = 'Reanudar movimiento';
-  var idioma = 'es';
-  function leer() { try { return localStorage.getItem('m0-idioma'); } catch (e) { return null; } }
-  function poner(l, guardar) {
-    idioma = l === 'en' ? 'en' : 'es';
-    var T = idioma === 'en' ? EN : ES;
-    $$('[data-i]').forEach(function (el) { var k = el.getAttribute('data-i'); if (T[k] != null) el.innerHTML = T[k]; });
-    document.documentElement.lang = idioma;
-    $$('.idioma button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.value === idioma)); });
-    pintaPausa();
-    if (guardar) { try { localStorage.setItem('m0-idioma', idioma); } catch (e) {} }
-  }
-  $$('.idioma button').forEach(function (b) { b.addEventListener('click', function () { poner(b.value, true); }); });
+  /* ---------- Idioma: cada idioma tiene su propia dirección (/ y /en/); aquí solo se rotula la pausa ---------- */
+  var idioma = document.documentElement.lang === 'en' ? 'en' : 'es';
+  var PAUSA = { es: ['Pausar movimiento', 'Reanudar movimiento'], en: ['Pause motion', 'Resume motion'] }[idioma];
 
   /* ---------- Pausa única para todo lo que se mueve ---------- */
   var pausado = false;
   var btnPausa = $('.pausa');
   function pintaPausa() {
     if (!btnPausa) return;
-    var T = idioma === 'en' ? EN : ES;
-    btnPausa.textContent = pausado ? T['pausa.off'] : T['pausa.on'];
+    btnPausa.textContent = pausado ? PAUSA[1] : PAUSA[0];
     btnPausa.setAttribute('aria-pressed', String(pausado));
   }
   if (btnPausa) {
@@ -131,7 +56,8 @@
     var img = $('img', l);
     if (img.complete) mide(l); else img.addEventListener('load', function () { mide(l); });
   });
-  addEventListener('resize', function () { lienzos.forEach(mide); });
+  var anchoVentana = innerWidth;
+  addEventListener('resize', function () { if (innerWidth !== anchoVentana) { anchoVentana = innerWidth; lienzos.forEach(mide); } });
   if ('IntersectionObserver' in window) {
     var vigia = new IntersectionObserver(function (es) {
       es.forEach(function (e) { e.target.classList.toggle('viva', e.isIntersecting); });
@@ -142,7 +68,7 @@
   /* ---------- Agua ---------- */
   var caja = $('.agua'), lona = caja && $('canvas', caja), flot = $('.flotador'), pista = $('.pista');
   var ctx, W = 0, H = 0, base = 0, N = 0, h = [], v = [], t = 0, enMarcha = false, visible = true;
-  var PASO = 9;
+  var PASO = 9, anchoPista = 0;
   var c = { x: 0, y: 0, vx: 0, vy: 0, a: 0.12, va: 0, t: 90, alto: 150, coge: false, dentro: false };
   var VERDE = '#0F3B3A';
 
@@ -170,6 +96,7 @@
     flot.style.setProperty('--t', c.t + 'px');
     if (c.x === 0) { c.x = W * (W < 700 ? 0.7 : 0.6); c.y = reduce ? base - c.alto * 0.2 : -c.alto * 2.2; }
     c.x = Math.min(W - c.t * 0.5, Math.max(c.t * 0.5, c.x));
+    anchoPista = pista ? pista.offsetWidth : 0;
   }
   function fisica() {
     var i, K = 0.018, ROCE = 0.035, CONTAGIO = 0.2;
@@ -208,18 +135,23 @@
     for (x = 0; x <= W + PASO; x += PASO) ctx.lineTo(x, nivel(Math.min(x, W)));
     ctx.lineTo(W, H); ctx.closePath(); ctx.fillStyle = VERDE; ctx.fill();
     flot.style.transform = 'translate(' + (c.x - c.t / 2).toFixed(1) + 'px,' + (c.y - c.alto / 2).toFixed(1) + 'px) rotate(' + c.a.toFixed(3) + 'rad)';
-    if (pista && !pista.classList.contains('fuera')) pista.style.transform = 'translate(' + Math.max(4, c.x - c.t * 0.75 - pista.offsetWidth).toFixed(0) + 'px,' + (c.y - c.alto * 0.62).toFixed(0) + 'px)';
+    if (pista && !pista.classList.contains('fuera')) pista.style.transform = 'translate(' + Math.max(4, c.x - c.t * 0.75 - anchoPista).toFixed(0) + 'px,' + (c.y - c.alto * 0.62).toFixed(0) + 'px)';
   }
-  function vuelta() {
+  var antes = 0, resto = 0;
+  function vuelta(ahora) {
     if (pausado || !visible || reduce) { enMarcha = false; return; }
-    t += 1 / 60; fisica(); pinta();
+    var dt = Math.min(0.1, (ahora - antes) / 1000); antes = ahora; resto += dt;
+    var pasos = 0;
+    while (resto >= 1 / 60 && pasos < 4) { t += 1 / 60; fisica(); resto -= 1 / 60; pasos++; }
+    if (pasos === 4) resto = 0;
+    if (pasos) pinta();
     requestAnimationFrame(vuelta);
   }
-  function arranca() { if (!enMarcha && !reduce && !pausado && visible && caja) { enMarcha = true; requestAnimationFrame(vuelta); } }
+  function arranca() { if (!enMarcha && !reduce && !pausado && visible && caja) { enMarcha = true; antes = performance.now(); resto = 1 / 60; requestAnimationFrame(vuelta); } }
 
   if (caja && lona && flot) {
     talla(); pinta();
-    addEventListener('resize', function () { talla(); pinta(); });
+    addEventListener('resize', function () { var r = caja.getBoundingClientRect(); if (Math.abs(r.width - W) > 1 || Math.abs(r.height - H) > 1) { talla(); pinta(); } });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) { visible = es[0].isIntersecting; arranca(); }, { rootMargin: '300px 0px' }).observe(caja);
     }
@@ -270,7 +202,6 @@
     setTimeout(function () { if (pista) pista.classList.add('fuera'); }, 14000);
   }
 
-  var guardado = leer();
-  poner(guardado || ((navigator.language || 'es').toLowerCase().indexOf('es') === 0 ? 'es' : 'en'), false);
+  pintaPausa();
   arranca();
 })();
