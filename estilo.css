@@ -75,7 +75,7 @@ p,figure{margin:0}
 .flotador{position:absolute;left:0;top:0;width:var(--t,90px);padding:0;border:0;background:none;cursor:grab;touch-action:none;z-index:4;will-change:transform;-webkit-tap-highlight-color:transparent}
 .flotador:active{cursor:grabbing}
 .flotador svg{width:100%;pointer-events:none}
-.flotador path{fill:var(--coral)}
+.flotador path{fill:var(--minio)} /* el mismo rojo que el 0 del logo: es esa pieza, caída al agua */
 .pista{position:absolute;left:0;top:0;z-index:4;white-space:nowrap;font:700 17px/1 var(--brocha);color:var(--verde);pointer-events:none;transition:opacity .4s}
 .pista.fuera{opacity:0}
 .pausa{position:absolute;right:var(--margen);bottom:6px;z-index:4;min-height:40px;background:none;border:0;color:var(--crema);font:500 14px/1 var(--texto);text-decoration:underline;text-underline-offset:4px;opacity:.8;cursor:pointer;padding:0}
