@@ -6,7 +6,7 @@ cero=f'<svg viewBox="355 0 254 440" aria-hidden="true"><path fill-rule="evenodd"
 # La ola del logo, tal cual, como subrayado (solo se estira a lo ancho)
 for nombre,color in [('coral','#F0694C'),('minio','#D2452D'),('verde','#0F3B3A')]:
     pathlib.Path(f'marca/subrayado-{nombre}.svg').write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="236 374 1194 310" preserveAspectRatio="none"><path fill="{color}" fill-rule="evenodd" d="{gp[1][2]}"/></svg>')
-V='8'
+V='9'
 FL='<svg class="flecha" viewBox="0 0 100 70" aria-hidden="true"><path d="M6 12 C 38 4, 72 18, 86 54"/><path d="M66 46 L 87 56 L 94 33"/></svg>'
 def lienzo(img,h,alt): return f'<div class="lienzo"><img src="trabajos/{img}.webp?v={V}" width="1400" height="{h}" alt="{alt}" loading="lazy" decoding="async"></div>'
 def clip(n,label): return f'<figure class="movil"><video data-src="clips/{n}.mp4?v={V}" poster="clips/{n}.jpg?v={V}" muted loop playsinline preload="none" aria-label="{label}"></video></figure>'
@@ -81,7 +81,7 @@ html=f'''<!doctype html>
         </div>
         <div class="antes">
           <figure class="papel foto"><img src="trabajos/creamdo-foto.webp?v={V}" width="720" height="960" alt="Foto de un cuadro tomada con el teléfono, torcida y con la pared alrededor" loading="lazy"><figcaption data-i="a.c1">Foto original, tomada con un teléfono.</figcaption></figure>
-          <div class="paso">{FL}<p class="nota" data-i="a.n2">Cinco pasos guiados.</p></div>
+          <div class="paso"><p class="nota" data-i="a.n2">Cinco pasos guiados.</p>{FL}</div>
         </div>
         <figure class="papel sala"><img src="trabajos/creamdo-sala.webp?v={V}" width="900" height="1350" alt="El mismo cuadro, enderezado y colgado a escala sobre un sofá en una sala con vista al mar" loading="lazy"><figcaption data-i="a.c2">Resultado: la misma obra, corregida y a escala real (120 × 90 cm). Imagen referencial.</figcaption></figure>
       </div>

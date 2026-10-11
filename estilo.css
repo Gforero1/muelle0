@@ -122,8 +122,8 @@ p,figure{margin:0}
 .papel figcaption{color:var(--verde);font:600 15px/1.25 var(--brocha);padding:9px 3px 11px}
 .papel.foto{transform:rotate(-3deg);margin-top:clamp(30px,8vw,130px)}
 .papel.sala{transform:rotate(1.5deg)}
-.paso{display:flex;align-items:flex-end;gap:10px;margin:var(--e1) 0 0 8%}
-.flecha{width:clamp(40px,5vw,70px);color:var(--coral);flex:none;transform:rotate(-18deg)}
+.paso{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:var(--e1) -4% 0 0;text-align:right}
+.flecha{width:clamp(44px,5vw,70px);color:var(--coral);flex:none;transform:rotate(-32deg)} /* sale del texto y apunta al resultado, a la derecha */
 .flecha path{fill:none;stroke:currentColor;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
 
 /* Puntos: lo que se desarrolló a medida. Mismo componente en los tres proyectos. */
@@ -173,7 +173,6 @@ p,figure{margin:0}
   .demo.c .col-movil{order:-1}
   .demo.b,.demo.c{gap:var(--e2)}
   .papel.foto{margin-top:0}
-  .paso{margin-left:0}
   .puntos{grid-template-columns:1fr;gap:22px}
   .preguntas li{grid-template-columns:1fr}
   .lienzo{border-width:6px}
