@@ -33,15 +33,33 @@
   var ahorro = navigator.connection && navigator.connection.saveData;
   function toca(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
   if (!reduce && !ahorro && 'IntersectionObserver' in window) {
+    /* Reproduce si el clip está a la vista; se llama al entrar y otra vez cuando el vídeo ya tiene datos,
+       porque en iPhone un play() lanzado antes de cargar se pierde y nadie lo repetía. */
+    var intenta = function (v) { if (v.dataset.visto === '1' && !pausado) toca(v); };
+    clips.forEach(function (v) {
+      v.addEventListener('loadeddata', function () { intenta(v); });
+      v.addEventListener('canplay', function () { intenta(v); });
+    });
+    /* Carga: un poco antes de llegar */
+    var carga = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting && !v.getAttribute('src')) { v.preload = 'auto'; v.src = v.getAttribute('data-src'); v.load(); carga.unobserve(v); }
+      });
+    }, { rootMargin: '600px 0px' });
+    /* Reproducción: solo mientras se ve de verdad */
     var cine = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var v = e.target;
         v.dataset.visto = e.isIntersecting ? '1' : '0';
-        if (e.isIntersecting) { if (!v.src) v.src = v.getAttribute('data-src'); if (!pausado) toca(v); }
-        else v.pause();
+        if (e.isIntersecting) intenta(v); else v.pause();
       });
-    }, { rootMargin: '200px 0px', threshold: 0.2 });
-    clips.forEach(function (v) { cine.observe(v); });
+    }, { threshold: 0.2 });
+    clips.forEach(function (v) { carga.observe(v); cine.observe(v); });
+    /* Con el ahorro de batería el iPhone no deja arrancar vídeos solos: el primer toque los pone en marcha */
+    var alTocar = function () { clips.forEach(function (v) { if (v.paused) intenta(v); }); };
+    addEventListener('touchend', alTocar, { passive: true });
+    addEventListener('click', alTocar);
   }
 
   /* ---------- Capturas que se recorren solas mientras están en pantalla ---------- */
