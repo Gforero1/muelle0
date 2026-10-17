@@ -85,6 +85,25 @@
 
   /* ---------- Agua ---------- */
   var caja = $('.agua'), lona = caja && $('canvas', caja), flot = $('.flotador'), pista = $('.pista');
+  /* Boyas: los proyectos flotan y derivan despacio; se detienen al pasar el ratón o el foco */
+  var flota = caja && $('.boyas', caja), boyas = flota ? $$('.boya', flota) : [], anchos = [], salidas = [], vuelta_ = 0, deriva = 0, quietas = false;
+  var HUECO_BOYA = 64, VEL_BOYA = 0.32;
+  function mideBoyas() {
+    if (!flota || reduce) return;
+    flota.classList.add('en-agua');
+    var x = 0; anchos = []; salidas = [];
+    boyas.forEach(function (b) { var w = b.offsetWidth; anchos.push(w); salidas.push(x); x += w + HUECO_BOYA; });
+    vuelta_ = Math.max(x, W + 220);
+    if (deriva === 0) deriva = -W * 0.12;
+  }
+  function pintaBoyas() {
+    if (!vuelta_) return;
+    for (var i = 0; i < boyas.length; i++) {
+      var x = ((salidas[i] - deriva) % vuelta_ + vuelta_) % vuelta_ - 110, cx = x + anchos[i] / 2;
+      var cuesta = (nivel(cx + 20) - nivel(cx - 20)) / 40;
+      boyas[i].style.transform = 'translate(' + x.toFixed(1) + 'px,' + (nivel(Math.max(0, Math.min(W, cx))) + 6).toFixed(1) + 'px) rotate(' + (Math.atan(cuesta) * 0.6).toFixed(3) + 'rad)';
+    }
+  }
   var ctx, W = 0, H = 0, base = 0, N = 0, h = [], v = [], t = 0, enMarcha = false, visible = true;
   var PASO = 9, anchoPista = 0;
   var c = { x: 0, y: 0, vx: 0, vy: 0, a: 0.12, va: 0, t: 90, alto: 150, coge: false, dentro: false };
@@ -115,6 +134,7 @@
     if (c.x === 0) { c.x = W * (W < 700 ? 0.7 : 0.6); c.y = reduce ? base - c.alto * 0.2 : -c.alto * 2.2; }
     c.x = Math.min(W - c.t * 0.5, Math.max(c.t * 0.5, c.x));
     anchoPista = pista ? pista.offsetWidth : 0;
+    mideBoyas();
   }
   function fisica() {
     var i, K = 0.018, ROCE = 0.035, CONTAGIO = 0.2;
@@ -125,6 +145,7 @@
         if (i < N - 1) { var e = CONTAGIO * (h[i] - h[i + 1]); v[i + 1] += e * 0.5; h[i + 1] += e * 0.5; }
       }
     }
+    if (!quietas) deriva += VEL_BOYA;
     if (c.coge) return;
     var sup = nivel(c.x), hondo = (c.y + c.alto * 0.2) - sup;
     c.vy += 0.42; c.vx *= 0.994;
@@ -152,6 +173,7 @@
     ctx.beginPath(); ctx.moveTo(0, H);
     for (x = 0; x <= W + PASO; x += PASO) ctx.lineTo(x, nivel(Math.min(x, W)));
     ctx.lineTo(W, H); ctx.closePath(); ctx.fillStyle = VERDE; ctx.fill();
+    pintaBoyas();
     flot.style.transform = 'translate(' + (c.x - c.t / 2).toFixed(1) + 'px,' + (c.y - c.alto / 2).toFixed(1) + 'px) rotate(' + c.a.toFixed(3) + 'rad)';
     if (pista && !pista.classList.contains('fuera')) pista.style.transform = 'translate(' + Math.max(4, c.x - c.t * 0.75 - anchoPista).toFixed(0) + 'px,' + (c.y - c.alto * 0.62).toFixed(0) + 'px)';
   }
@@ -174,6 +196,18 @@
       new IntersectionObserver(function (es) { visible = es[0].isIntersecting; arranca(); }, { rootMargin: '300px 0px' }).observe(caja);
     }
     document.addEventListener('visibilitychange', function () { visible = !document.hidden; arranca(); });
+
+    if (flota) {
+      var para = function () { quietas = true; }, sigue = function () { quietas = false; };
+      flota.addEventListener('pointerenter', para); flota.addEventListener('pointerleave', sigue);
+      flota.addEventListener('focusin', function (e) {
+        quietas = true;
+        var i = boyas.indexOf(e.target);
+        if (i >= 0 && vuelta_) { deriva = salidas[i] - Math.min(W * 0.3, W - anchos[i] - 30) - 110; pinta(); }
+      });
+      flota.addEventListener('focusout', sigue);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { mideBoyas(); pinta(); });
+    }
 
     /* El ratón remueve la superficie al cruzarla */
     var ux = null, uy = null;

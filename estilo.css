@@ -70,7 +70,7 @@ p,figure{margin:0}
 @keyframes cae{from{opacity:0;transform:translateY(-70px) rotate(-14deg)}}
 
 /* ---------- Agua ---------- */
-.agua{position:relative;height:clamp(210px,30vh,290px);margin-top:clamp(0px,3vh,40px)}
+.agua{position:relative;overflow-x:clip;height:clamp(210px,30vh,290px);margin-top:clamp(0px,3vh,40px)}
 .agua canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .flotador{position:absolute;left:0;top:0;width:var(--t,90px);padding:0;border:0;background:none;cursor:grab;touch-action:none;z-index:4;will-change:transform;-webkit-tap-highlight-color:transparent}
 .flotador:active{cursor:grabbing}
@@ -80,6 +80,14 @@ p,figure{margin:0}
 .pista.fuera{opacity:0}
 .pausa{position:absolute;right:var(--margen);bottom:6px;z-index:4;min-height:40px;background:none;border:0;color:var(--crema);font:500 14px/1 var(--texto);text-decoration:underline;text-underline-offset:4px;opacity:.8;cursor:pointer;padding:0}
 .pausa:hover{opacity:1}
+
+/* Boyas: los nombres de los proyectos flotan en el agua y llevan a cada uno.
+   Sin JS (o con movimiento reducido) quedan en fila bajo la superficie. */
+.boyas{position:absolute;left:var(--margen);right:var(--margen);bottom:58px;display:flex;flex-wrap:wrap;gap:6px 22px;z-index:3}
+.boya{font:700 clamp(15px,1.15vw,18px)/1 var(--brocha);color:var(--crema);text-decoration:none;white-space:nowrap;padding:8px 2px;opacity:.88}
+.boya:hover,.boya:focus-visible{opacity:1;color:var(--coral)}
+.boyas.en-agua{position:absolute;inset:0;display:block}
+.boyas.en-agua .boya{position:absolute;left:0;top:0;will-change:transform}
 
 /* ---------- Bajo el agua: proyectos ---------- */
 .mar{padding:clamp(20px,3vw,44px) var(--margen) 0;margin-top:-1px}
@@ -98,7 +106,9 @@ p,figure{margin:0}
 .demo.a{grid-template-columns:minmax(0,3fr) minmax(0,3.1fr) minmax(0,4.6fr);align-items:start}
 .demo.b{grid-template-columns:minmax(0,3fr) minmax(0,8fr)}
 .demo.c{grid-template-columns:minmax(0,8fr) minmax(0,3fr)}
-.demo.solo{grid-template-columns:minmax(0,8fr) minmax(0,3fr);margin-top:var(--e2)}
+.demo.d{grid-template-columns:minmax(0,8fr) minmax(0,3fr);margin-top:var(--e2)}
+.demo.e{grid-template-columns:minmax(0,9fr) minmax(0,2.4fr)}
+.demo + .demo{margin-top:var(--e2)}
 .col-movil{display:grid;gap:var(--e1)}
 
 /* Teléfono: siempre recto. Dentro va una grabación o una captura que se recorre. */
@@ -116,6 +126,10 @@ p,figure{margin:0}
 }
 @keyframes recorre{0%,2%{transform:translateY(0)}98%,100%{transform:translateY(calc(-100% + var(--alto,300px)))}}
 
+/* Ventana: grabación de escritorio, recta, con el mismo marco de papel que las capturas */
+.ventana{position:relative;aspect-ratio:1100/520;background:#fff;border:9px solid var(--crema);box-shadow:var(--sombra);overflow:hidden}
+.ventana video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
 /* Papel: fotos sueltas, las únicas piezas inclinadas */
 .papel{background:var(--crema);padding:9px 9px 0;box-shadow:var(--sombra)}
 .papel img{width:100%}
@@ -131,6 +145,23 @@ p,figure{margin:0}
 .puntos b{display:block;font:800 clamp(19px,1.5vw,22px)/1.2 var(--brocha);color:var(--coral);margin-bottom:.35em}
 .puntos p{max-width:23em;font-size:clamp(16px,1.2vw,18px)}
 .cierre{margin-top:var(--e2)}
+.cierre.dos{display:flex;flex-wrap:wrap;gap:16px 44px}
+
+/* Ficha de marca: los colores y la tipografía del cliente, para ver que cada web parte de su identidad */
+.ficha{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-.2em 0 1.1em;font-size:14px;opacity:.85}
+.muestras{display:flex}
+.muestras i{width:22px;height:22px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px var(--verde),0 0 0 3px rgba(242,238,230,.4);margin-right:-5px}
+
+/* Más proyectos: el mismo orden en pequeño (teléfono, relato, puntos y enlace) */
+.mas-proyectos{border-top:2px solid rgba(242,238,230,.18);padding:var(--e2) 0 var(--e3)}
+.mas-proyectos>h2{font-size:clamp(30px,4vw,60px);margin-bottom:var(--e2)}
+.compacto{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,8fr);gap:var(--hueco);align-items:center}
+.compacto+.compacto{margin-top:var(--e3)}
+.compacto .medio{max-width:300px}
+.compacto h3{font-size:clamp(26px,2.9vw,44px);margin-bottom:.5em}
+.compacto .texto>p{max-width:38em}
+.compacto .puntos{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:var(--e1)}
+.compacto .cierre{margin-top:var(--e1)}
 
 /* ---------- Servicios ---------- */
 .tuyo{padding:0 var(--margen) var(--e3)}
@@ -139,7 +170,10 @@ p,figure{margin:0}
 .preguntas{list-style:none;margin:0;padding:0;display:grid;gap:clamp(22px,3vw,40px);max-width:70rem}
 .preguntas li{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:6px var(--hueco);align-items:baseline}
 .preguntas h3{font:900 clamp(24px,2.7vw,40px)/1.08 var(--brocha);color:var(--coral);margin:0;letter-spacing:-.01em}
-.preguntas p{max-width:26em}
+.preguntas p{max-width:30em}
+.prueba{display:block;margin-top:.35em;font:700 15px/1.4 var(--brocha);opacity:.9}
+.prueba a{color:var(--coral);text-decoration:none;margin-left:.5em;border-bottom:2px solid currentColor}
+.prueba a:hover{border-bottom-color:transparent}
 
 /* ---------- Orilla: contacto ---------- */
 .rompiente{display:block;width:100%;height:clamp(40px,7vw,110px);margin-bottom:-1px}
@@ -166,7 +200,11 @@ p,figure{margin:0}
   .portada{grid-template-columns:1fr;gap:22px;padding-top:14px}
   .logo-grande{transform:rotate(-1.5deg)}
   .agua{height:220px;margin-top:6px}
-  .demo.b,.demo.c,.demo.solo{grid-template-columns:1fr}
+  .demo.b,.demo.c,.demo.d,.demo.e{grid-template-columns:1fr}
+  .compacto{grid-template-columns:1fr}
+  .compacto .medio{max-width:62%}
+  .compacto .puntos{grid-template-columns:1fr}
+  .ventana{border-width:6px}
   .demo.a{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--e2) 18px}
   .demo.a .col-movil{grid-column:1/3}
   .col-movil{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:var(--hueco)}

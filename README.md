@@ -2,7 +2,7 @@
 
 Web del estudio: portafolio de lo que montamos. Estática, sin dependencias.
 
-- `index.html` (español) y `en/index.html` (inglés): se generan con `herramientas/monta_index.py`. Los textos en español están en ese script; los ingleses, en `herramientas/en.json`. Cada idioma tiene su dirección y sus etiquetas `hreflang`.
+- `index.html` (español) y `en/index.html` (inglés): se generan con `python3 herramientas/monta_index.py`. Cada texto va en pareja español/inglés dentro del script (`X(clave, es, en)` y `A(es, en)` para atributos); `herramientas/en.json` se reescribe como registro.
 - `estilo.css`: estilos. `muelle.js`: idioma, agua, clips y recorrido de las capturas.
 - `marca/`: logo y monograma vectorizados desde el manual de marca de Canva, la ola del logo como subrayado, favicon e imagen para compartir.
 - `trabajos/`: capturas largas de cada web y el antes y después de Creamdo (WebP).
@@ -23,6 +23,14 @@ Sale del manual de marca ("Manual de marca muelle0" en Canva) y del logo, que es
 - **Textos:** sobrios y concretos. Cada proyecto se cuenta como problema, solución y prueba; los servicios, como lo que el cliente consigue. Sin lemas, sin frases promocionales y sin insistir en el origen del estudio. Llamada a la acción única: escribir contando el problema.
 - **Lo que no tiene:** numeración decorativa, tarjetas, contadores, testimonios, iconos de línea.
 
+## Estructura de proyectos (octubre 2026)
+
+- **Destacados** (relato, demostración, puntos y enlace, con la ficha de marca del cliente: sus colores y tipografías reales): Creamdo, Gioia y Calu (misma base, dos marcas), Atempo (editor) y 0701 Ingeniería (memoria por obra).
+- **Más proyectos**, formato compacto (teléfono, relato, tres puntos): Avanza con Gabriel, Omary, La Tiendita del Fisio.
+- **Boyas:** los nombres de los proyectos flotan en el agua de la portada y llevan a cada uno. Derivan despacio, se paran con el ratón o el foco y quedan en fila con movimiento reducido.
+- **Servicios:** cada uno enlaza al proyecto donde se ve ("Lo ves en").
+- Clips nuevos: `atempo-editor` (escritorio, en `.ventana`), `gioia-admin` y `avanza-cv` (teléfono). Grabados con Playwright sobre cada repo servido en local (Wrangler para Gioia, Calu y Atempo).
+
 ## Cómo se hicieron los clips
 
 - `creamdo-admin`: el panel real de Creamdo servido en local con su servidor de pruebas (`pruebas/servidor.js`), recorrido en vista de teléfono con una obra del catálogo. El resultado es el montaje a escala del propio panel.
@@ -32,7 +40,7 @@ Sale del manual de marca ("Manual de marca muelle0" en Canva) y del logo, que es
 
 1. Material real: grabación de pantalla o capturas largas, en `clips/` y `trabajos/`.
 2. Un `<article class="caso">` nuevo en `herramientas/monta_index.py`: de quién es, qué hubo que inventar y las notas.
-3. Sus textos en inglés en `herramientas/en.json`.
+3. Sus textos en inglés van en la misma llamada `X(...)`.
 4. Subir la versión `V` del script y ejecutar `python3 herramientas/monta_index.py`.
 
 ## Contacto que aparece en la web
